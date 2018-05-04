@@ -1,0 +1,14 @@
+{
+    "name": "sfw2/appointments",
+    "type": "library",
+    "license": "GNU AFFERO GENERAL PUBLIC LICENSE Version 3",
+
+    "require": {
+        "php": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SFW2\\Appointments\\": "src/"
+        }
+    }
+}
