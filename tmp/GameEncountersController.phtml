@@ -1,0 +1,148 @@
+<?php
+
+/**
+ *  SFW - SimpleFrameWork
+ *
+ *  Copyright (C) 2018  Stefan Paproth
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program. If not, see
+ *  http://www.gnu.org/licenses/agpl.txt.
+ *
+ */
+
+?>
+<h1><?php echo($this->title); ?></h1>
+<?php if($this->permission->createAllowed()): ?>
+<input id="path" type="hidden" name="path" value="/verein/allgemein/aktuelles" />
+<form>
+    <div class="row">
+        <label for="startDate" class="col-sm-2 col-form-label">Datum</label>
+        <div class="col-sm-3">
+            <input
+                type="date"
+                class="form-control form-control-sm"
+                placeholder="Hier kommt das Datum hin..."
+                maxlength="100"
+                title="Gib hier bitte den Tag ein"
+                name="startDate"
+                value=""
+            />
+        </div>
+    </div>
+    <div class="row">
+        <label for="startTime" class="col-sm-2 col-form-label">Uhrzeit</label>
+        <div class="col-sm-2">
+            <input
+                type="time"
+                class="form-control form-control-sm"
+                placeholder="Hier kommt die Uhrzeit hin..."
+                maxlength="100"
+                title="Die Startzeit"
+                name="startTime"
+                value=""
+            />
+        </div>
+    </div>
+    <div class="row">
+        <label for="home" class="col-sm-2 col-form-label">Heim</label>
+        <div class="col-sm-5">
+            <input
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="Hier kommt die Beschreibung hin..."
+                maxlength="100"
+                title="Gib hier bitte eine kurze Beschreibung der Datei ein."
+                name="home"
+                value=""
+            />
+        </div>
+    </div>
+    <div class="row">
+        <label for="guest" class="col-sm-2 col-form-label">Gast</label>
+        <div class="col-sm-5">
+            <input
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="Hier kommt die Beschreibung hin..."
+                maxlength="100"
+                title="Gib hier bitte eine kurze Beschreibung der Datei ein."
+                name="guest"
+                value=""
+                required
+            />
+        </div>
+    </div>
+    <div class="modal-footer" style="border: 0; margin-top: 12px;">
+        <button type="button" class="btn btn-success btn-sm submit-form">
+            speichern
+        </button>
+        <button type="reset" class="btn btn-danger btn-sm">
+            abbrechen
+        </button>
+    </div>
+</form>
+<?php endif;?>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+<script id="entry-template" type="text/x-handlebars-template">
+
+    <tr>
+        <td style="text-align:left; padding-left: 5px;">{{startDay}}</td>
+        <td style="text-align:left; padding-left: 5px;">{{startDate}}</td>
+        <td>{{startTime}} Uhr</td>
+        <td>{{home}}</td>
+        <td>{{guest}}</td>
+        {{#if deleteAllowed}}
+        <td style="width: 100px;">
+            <?php /*<input type="hidden" id="title_<?php echo($v1['id']);?>" value="<?php echo($v1['startDate'] . '; ' . $v1['startTime'] . ' Uhr ' . $v1['desc1'] . ' - ' . $v1['desc2']);?>" /> */ ?>
+            <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                data-toggle="modal"
+                data-target="#acceptDialogModalCenter"
+                data-item-id="{{id}}"
+            >
+                löschen
+            </button>
+        </td>
+        {{/if}}
+    </tr>
+
+</script>
+<div>
+    <?php foreach($this->tables as $k => $v): ?>
+    Übersicht <?php echo($v);?>
+    <div style="height: 10px;"> </div>
+    <table class="table table-sm table-striped table-hover nowrap">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" colspan="2">Datum</th>
+                <th scope="col">Uhrzeit</th>
+                <th scope="col">Heim</th>
+                <th scope="col">Gast</th>
+                <?php if($this->permission->createAllowed()): ?>
+                <th scope="col">
+                </th>
+                <?php endif;?>
+            </tr>
+        </thead>
+        <tbody class="nowrap reload-data" id="blaha" data-url="/fussball/spielplaene?do=loadEntries&item=<?php echo($k); ?>">
+        </tbody>
+    </table>
+    <div style="height: 30px;"></div>
+    <?php endforeach; ?>
+</div>
+<div class="modificationDate">
+    Stand: <time pubdate="pubdate"><?php echo($this->modificationDate); ?></time>
+</div>
