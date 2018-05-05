@@ -1,0 +1,233 @@
+<?php
+/**
+ *  SFW - SimpleFrameWork
+ *
+ *  Copyright (C) 2015  Stefan Paproth
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program. If not, see <http://www.gnu.org/licenses/agpl.txt>.
+ *
+ */
+?><?php if($this->permission->createAllowed()): ?>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+<form>
+    <h3 style="margin-bottom: 1.5rem;">Neuen Termin erstellen...</h3>
+    <div class="row">
+        <label for="title" class="col-sm-2 col-form-label">von</label>
+        <div class="col-sm-3">
+            <input
+                class="form-control form-control-sm"
+                type="date"
+                name="sdstartdate"
+                value=""
+                placeholder="Startdatum"
+                title="Gib hier bitte das Startdatum im Format TT.MM.JJJJ ein."
+                maxlength="10"
+            />
+        </div>
+        <div class="col-sm-2">
+            <input
+                class="form-control form-control-sm"
+                type="time"
+                name="sdstarttime"
+                value=""
+                placeholder="Startuhrzeit"
+                title="Gib hier bitte die Startzeit im Format hh::mm ein."
+                maxlength="5"
+            />
+        </div>
+    </div>
+    <div class="row">
+        <label for="title" class="col-sm-2 col-form-label">bis</label>
+        <div class="col-sm-3">
+            <input
+                class="form-control form-control-sm"
+                type="date"
+                name="sdenddate"
+                value=""
+                placeholder="Enddatum"
+                title="Gib hier bitte das Enddatum im Vormat TT.MM.JJJJ ein."
+                maxlength="10"
+            />
+        </div>
+        <div class="col-sm-2">
+            <input
+                class="form-control form-control-sm"
+                type="time"
+                name="sdendtime"
+                value=""
+                placeholder="Enduhrzeit"
+                title="Gib hier bitte die Endzeit im Vormat hh::mm ein."
+                maxlength="5"
+            />
+        </div>
+    </div>
+    <div class="row">
+        <label for="title" class="col-sm-2 col-form-label">Beschreibung</label>
+        <div class="col-sm-6">
+            <input
+                class="form-control form-control-sm"
+                type="text"
+                name="sddesc"
+                value=""
+                placeholder="Beschreibung"
+                title="Gib hier bitte eine Beschreibung ein."
+                maxlength="250"
+            />
+            <div class="valid-feedback"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">Flextermin</div>
+        <div class="col-sm-10">
+            <input
+                id="sdchangeable"
+                type="checkbox"
+                name="sdchangeable"
+                value="1"
+                title="Klick hier bitte, wenn der Termin noch nicht fest ist und sich ggf. ändert!"
+            />
+            <label for="sdchangeable">Termin kann sich noch ändern</label>
+        </div>
+    </div>
+    <div class="modal-footer" style="border: 0; margin-top: 12px;">
+        <button type="button" class="btn btn-success btn-sm submit-form">
+            speichern
+        </button>
+        <button type="reset" class="btn btn-danger btn-sm">
+            abbrechen
+        </button>
+    </div>
+</form>
+        </div>
+    </div>
+    </div>
+<?php endif; ?>
+<?php if(!count($this->singularDates['data']) && !$this->permission->createAllowed()): ?>
+<?php echo($this->showNoData());?>
+<?php elseif(count($this->singularDates)): ?>
+<table class="table table-sm table-striped table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" colspan="6">Termine</th>
+            <th>
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">hinzufügen</button>
+            </th>
+        </tr>
+    </thead>
+    <tbody class="nowrap">
+        <?php foreach($this->singularDates['data'] as $v1): ?>
+        <tr>
+            <td><?php echo($v1['startDateDay']);?></td>
+            <?php if(empty($v1['startTime']) && (empty($v1['endTime']) || $v1['endDate'] != '')): ?>
+            <td style="text-align:right; padding-left: 5px;">
+                <?php echo($v1['startDate']);?>
+            </td>
+            <td colspan="3">
+                <?php if($v1['changeable'] && empty($v1['endTime'])): ?>
+                <strong>*</strong>
+                <?php endif; ?>&nbsp;
+            </td>
+            <?php elseif(empty($v1['startTime']) && !empty($v1['endTime']) && $v1['endDate'] == ''): ?>
+            <td style="text-align:right; padding-left: 5px;">
+                <?php echo($v1['startDate']);?>
+            </td>
+            <td colspan="3">
+                bis <?php echo($v1['endTime']);?> Uhr
+                <?php if($v1['changeable']): ?>
+                <strong>*</strong><?php endif; ?>
+            </td>
+            <?php elseif(empty($v1['endTime'])): ?>
+            <td style="text-align:right; padding-left: 5px;">
+                <?php echo($v1['startDate']);?>
+            </td>
+            <td colspan="3">
+                ab <?php echo($v1['startTime']);?> Uhr
+                <?php if($v1['changeable']): ?>
+                <strong>*</strong>
+                <?php endif; ?>
+            </td>
+            <?php elseif($v1['endDate'] == ''): ?>
+            <td style="text-align:right; padding-left: 5px;">
+                <?php echo($v1['startDate']);?>
+            </td>
+            <td style="text-align:right; padding-left: 5px;"><?php echo($v1['startTime']);?></td>
+            <td style="padding-left: 5px; text-align: center">-</td>
+            <td style="padding-left: 5px;">
+                <?php echo($v1['endTime']);?> Uhr
+                <?php if($v1['changeable']): ?>
+                <strong>*</strong>
+                <?php endif; ?>
+            </td>
+            <?php else: ?>
+            <td style="text-align:right; padding-left: 5px;">
+                <?php echo($v1['startDate']);?>
+            </td>
+            <td colspan="3">von <?php echo($v1['startTime']);?> Uhr
+                <?php if($v1['changeable']): ?>
+                <strong>*</strong>
+                <?php endif; ?>
+            </td>
+            <?php endif; ?>
+            <?php if($v1['endDate'] == ''): ?>
+            <td><?php echo($v1['desc']);?></td>
+            <?php else: ?>
+            <td></td>
+            <?php endif; ?>
+            <?php if($this->permission->createAllowed()): ?>
+            <td>
+                <button
+                    class="btn btn-danger btn-sm"
+                    value=""
+                    type="submit"
+                >
+                    löschen
+                </button>
+            </td>
+            <?php else: ?>
+            <td class="table-spacer"></td>
+            <?php endif; ?>
+        </tr>
+        <?php if($v1['endDate'] != ''): ?>
+        <tr>
+            <td>bis</td>
+            <td style="text-align:right; padding-left: 5px;">
+                <?php echo($v1['endDate']); ?>
+            </td>
+            <?php if(empty($v1['endTime'])): ?>
+            <td colspan="3">&nbsp;</td>
+            <?php else: ?>
+            <td colspan="3"><?php echo($v1['endTime']);?> Uhr
+                <?php if($v1['changeable']): ?>
+                <strong>*</strong>
+                <?php endif; ?>
+            </td>
+            <?php endif; ?>
+            <td><?php echo($v1['desc']);?></td>
+            <td>&nbsp;</td>
+            <td class="table-spacer"></td>
+        </tr>
+        <?php endif;?>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<?php endif; ?>
+<?php if($this->singularDates['changeable']): ?>
+<p>
+    <strong>*</strong> <i><strong>Achtung:</strong> Das Datum bzw. die Uhrzeit stehen noch nicht endgültig fest und
+    können sich ggf. noch ändern!</i>
+</p>
+<?php endif;
