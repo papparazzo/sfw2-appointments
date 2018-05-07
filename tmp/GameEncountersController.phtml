@@ -132,7 +132,8 @@
                 <th scope="col">Heim</th>
                 <th scope="col">Gast</th>
                 <?php if($this->permission->createAllowed()): ?>
-                <th scope="col">
+                <th scope="col" style="text-align: right">
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#createModal">Neuer Eintrag</button>
                 </th>
                 <?php endif;?>
             </tr>
