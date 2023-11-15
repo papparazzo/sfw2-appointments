@@ -4,11 +4,34 @@
     "license": "GNU AFFERO GENERAL PUBLIC LICENSE Version 3",
 
     "require": {
-        "php": "^7.0"
+        "php": "^8.1",
+
+        "sfw2/validator": "^6.0",
+        "sfw2/routing": "@dev",
+        "sfw2/core": "^3.0",
+        "sfw2/database": "@dev"
     },
     "autoload": {
         "psr-4": {
             "SFW2\\Appointments\\": "src/"
         }
-    }
+    },
+    "repositories" : [
+        {
+            "type": "vcs",
+            "url": "https://github.com/papparazzo/sfw2-validator.git"
+        }, {
+            "type": "path",
+            "url": "../sfw2-routing",
+            "symlink": true
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/papparazzo/sfw2-core.git"
+        }, {
+            "type": "path",
+            "url": "../sfw2-database",
+            "symlink": true
+        }
+    ]
 }
