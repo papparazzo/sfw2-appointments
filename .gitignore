@@ -1,5 +1,5 @@
-/src/vendor
-/composer.lock
+/vendor
+.idea
 
 # netbeans project files
 /nbproject/
