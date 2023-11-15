@@ -1,0 +1,198 @@
+{{!
+/**
+ *  SFW - SimpleFrameWork
+ *
+ *  Copyright (C) 2015  Stefan Paproth
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program. If not, see <http://www.gnu.org/licenses/agpl.txt>.
+ *
+ */
+}}
+<div>
+    <div style="overflow-x: auto;">
+        <h4 class="mb-3 text-decoration-underline">Termine</h4>
+        <p>
+            Hier findes du alle Termine
+        </p>
+
+        <div id="{{sfw2_routing.path_simplified}}" class="d-none">
+            <form class="needs-validation" novalidate="novalidate">
+                <div class="mb-3">
+                    <input
+                        type="date"
+                        class="form-control "
+                        placeholder="Startdatum"
+                        name="sdstartdate"
+                        required="required"
+                        title="Gib hier bitte das Startdatum im Format TT.MM.JJJJ ein."
+                        maxlength="10"
+                    />
+                    <div class="form-text invalid-feedback">fehler</div>
+                </div>
+                <div class="mb-3">
+                    <input
+                        type="time"
+                        name="sdstarttime"
+                        placeholder="Startuhrzeit"
+                        title="Gib hier bitte die Startzeit im Format hh:mm ein."
+                        maxlength="5"
+                        class="form-control "
+                        required="required"
+                    />
+                    <div class="form-text invalid-feedback">fehler</div>
+                </div>
+                <div class="mb-3">
+                    <input
+                        class="form-control "
+                        type="date"
+                        name="sdenddate"
+                        placeholder="Enddatum"
+                        title="Gib hier bitte das Enddatum im Vormat TT.MM.JJJJ ein."
+                        maxlength="10"
+                    />
+                    <div class="invalid-feedback">fehler</div>
+                </div>
+                <div class="mb-3">
+                    <input
+                        class="form-control "
+                        type="time"
+                        name="sdendtime"
+                        placeholder="Enduhrzeit"
+                        title="Gib hier bitte die Endzeit im Vormat hh:mm ein."
+                        maxlength="5"
+                    />
+                    <div class="invalid-feedback">fehler</div>
+                </div>
+                <div class="mb-3">
+                    <input
+                        class="form-control "
+                        type="text"
+                        name="sddesc"
+                        placeholder="Beschreibung"
+                        title="Gib hier bitte eine Beschreibung ein."
+                        maxlength="250"
+                    />
+                    <div class="invalid-feedback">fehler</div>
+                </div>
+                <div class="mb-3">
+                    <input
+                        class="form-control "
+                        type="text"
+                        name="sdlocation"
+                        placeholder="Ort"
+                        title="Gib hier bitte einen Ort an."
+                        maxlength="250"
+                    />
+                    <div class="invalid-feedback">fehler</div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            name="sdchangeable"
+                            type="checkbox"
+                            id="sdchangeable"
+                            value="1"
+                            title="Klick hier bitte, wenn der Termin noch nicht fest ist und sich ggf. ändert!"
+                        />
+                        <label class="form-check-label" for="sdchangeable">
+                            Flextermin (Termin kann sich noch ändern)
+                        </label>
+                        <div class="invalid-feedback">Fehler</div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Datum</th>
+                    <th>Uhrzeit</th>
+                    <th>Was</th>
+                    <th>Wo</th>
+                    <th>
+                        <button
+                            type="button"
+                            class="btn-sm btn btn-light"
+                            data-bs-toggle="modal"
+                            data-bs-target="#sfw2-dialog-modal"
+                            data-sfw2-form-id="{{sfw2_routing.path_simplified}}"
+                            data-sfw2-url="{{sfw2_routing.path}}"
+                        ><i class="bi bi-plus-square"></i></button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="text-nowrap">
+                {{#each entries}}
+                <tr id="{{formid}}_recordset_{{id}}">
+
+                </tr>
+                {{/each}}
+
+                       <!--
+
+                            <tr id="{{formid}}_recordset_{{id}}">
+    <td>{{startDate}}</td>
+    <td style="text-align:right; padding-left: 5px;">{{startTime}}</td>
+    <td style="text-align:right; padding-left: 5px;">{{endDate}}</td>
+    <td>{{endTime}}</td>
+    <td>{{#if changeable}}<strong>*</strong>{{/if}}&#160;</td>
+    <td>{{desc}}</td>
+    {{#if deleteAllowed}}
+    <td style="width: 100px;">
+        <input type="hidden" id="{{formid}}_title_{{id}}" value="{{startDate}} - {{endDate}} ({{desc}})" />
+        <button
+            type="button"
+            class="btn btn-danger btn-sm"
+            data-toggle="modal"
+            data-target="#deleteDialogModal"
+            data-url="{{url}}"
+            data-item-id="{{id}}"
+            data-form-id="{{formid}}"
+        >
+            löschen
+        </button>
+    </td>
+    {{else}}
+    <td class="table-spacer"></td>
+    {{/if}}
+</tr>
+
+               -->
+
+                <tr>
+                    <td>So., 17. Dez. 2023</td>
+                    <td>ab 15:30 Uhr</td>
+                    <td>Weihnachtskonzert</td>
+                    <td>&#160;</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-light"><i class="bi bi-trash3"></i></button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {{#if has_changeable}}
+    <p>
+        <strong>*</strong> <i><strong>Achtung:</strong> Das Datum bzw. die Uhrzeit stehen noch nicht endgültig fest und
+        können sich ggf. noch ändern!</i>
+    </p>
+    {{/if}}
+    {{#if modificationDate}}
+    <div class="modificationDate">
+        Stand: <time pubdate="pubdate">{{modificationDate}}</time>
+    </div>
+    {{/if}}
+</div>

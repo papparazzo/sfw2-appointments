@@ -1,0 +1,34 @@
+<tr id="{{formid}}_recordset_{{id}}">
+    <td style="vertical-align: middle;">{{day}}</td>
+    {{#if till}}
+    <td style="vertical-align: middle; text-align: right;">{{from}}</td>
+    <td style="vertical-align: middle; text-align: center">-</td>
+    <td style="vertical-align: middle;">{{till}} Uhr</td>
+    {{else}}
+    {{#if from}}
+    <td style="vertical-align: middle;" colspan="3">
+        ab {{from}} Uhr
+    </td>
+    {{else}}
+    <td style="vertical-align: middle;" colspan="3">&#160;</td>
+    {{/if}}
+    {{/if}}
+    <td style="vertical-align: middle; ">{{desc}}</td>
+    {{#if deleteAllowed}}
+    <td style="width: 100px;">
+        <input type="hidden" id="{{formid}}_title_{{id}}" value="{{desc}}" />
+        <button
+            type="button"
+            class="btn btn-danger btn-sm"
+            data-toggle="modal"
+            data-target="#deleteDialogModal"
+            data-url="{{url}}"
+            data-item-id="{{id}}"
+            data-form-id="{{formid}}"
+        >
+            löschen
+        </button>
+    </td>
+    {{/if}}
+</tr>
+
