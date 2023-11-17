@@ -36,6 +36,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 #use SFW2\Core\Config;
 
+use SFW2\Routing\HelperTraits\getPathIdTrait;
 use SFW2\Routing\ResponseEngine;
 use SFW2\Validator\Enumerations\DateCompareEnum;
 use SFW2\Validator\Ruleset;
@@ -47,7 +48,7 @@ use SFW2\Validator\Validators\IsTime;
 
 class OneTimeAppointments extends AbstractController {
 
-    
+    use getPathIdTrait;
 
     #use DateTimeHelperTrait;
 
