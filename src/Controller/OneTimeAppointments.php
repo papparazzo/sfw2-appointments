@@ -73,6 +73,7 @@ class OneTimeAppointments extends AbstractController {
             'caption' => 'Hier findes du alle Termine',
             'modificationDate' => null,
         ];
+        $content = array_merge($content, $this->getEntries($this->getPathId($request)));
 
         return $responseEngine->render(
             $request,
@@ -81,31 +82,15 @@ class OneTimeAppointments extends AbstractController {
         );
     }
 
-    public function read(Request $request, ResponseEngine $responseEngine): Response
+    protected function getEntries(int $pathId): array
     {
-        $content = new Content('OneTimeAppointments');
-        $entries = [];
-
-        $count = (int)filter_input(INPUT_GET, 'count', FILTER_VALIDATE_INT);
-        $start = (int)filter_input(INPUT_GET, 'offset', FILTER_VALIDATE_INT);
-
-        $count = $count ? $count : 500;
-
         $stmt =
             "SELECT `one_time_appointments`.`Id`, `Description`, `StartDate`, `StartTime`, `EndDate`,`EndTime`, `Changeable` " .
             "FROM `{TABLE_PREFIX}_one_time_appointments` AS `one_time_appointments` " .
-            "WHERE `one_time_appointments`.`PathId` = '%s' ";
+            "WHERE `one_time_appointments`.`PathId` = %s " .
+            "ORDER BY `StartDate`, `StartTime` DESC ";
 
-        if(!$all) {
-            $stmt .= "AND `UserId` = '" . $this->database->escape($this->user->getUserId()) . "' ";
-        }
-
-        $stmt .=
-            "ORDER BY `StartDate`, `StartTime` DESC " .
-            "LIMIT %s, %s ";
-
-        $rows = $this->database->select($stmt, [$this->pathId, $start, $count]);
-        $cnt = $this->database->selectCount('{TABLE_PREFIX}_one_time_appointments', "WHERE `PathId` = '%s'", [$this->pathId]);
+        $rows = $this->database->select($stmt, [$pathId]);
 
         $changeable = false;
         $entries = [];
@@ -128,10 +113,11 @@ class OneTimeAppointments extends AbstractController {
             $entries[] = $entry;
         }
 
-        $content->assign('offset', $start + $count);
-        $content->assign('hasNext', $start + $count < $cnt);
-        $content->assign('entries', $entries);
-        return $content;
+        return [
+            'entries' => $entries,
+            'has_changeable' => $changeable
+        ];
+
     }
 
     /**
@@ -153,7 +139,7 @@ class OneTimeAppointments extends AbstractController {
        #     $stmt .= "AND `UserId` = '" . $this->database->escape($this->user->getUserId()) . "'";
        # }
 
-        if(!$this->database->delete($stmt, [$entryId, $this->pathId])) {
+        if(!$this->database->delete($stmt, [$entryId, $this->getPathId($request)])) {
             throw new HttpBadRequest("no entry found for id <$entryId>");
         }
         return $responseEngine->render($request);
@@ -199,9 +185,9 @@ class OneTimeAppointments extends AbstractController {
             [
                 $values['sdstartdate']['value'],
                 $values['sddesc']['value'],
-                $this->pathId,
+                $this->getPathId($request),
                 $values['sdchangeable']['value'],
-                $this->user->getUserId()
+               # $this->user->getUserId()
             ]
         );
         $content->assign('id',        ['value' => $id]);
@@ -234,7 +220,8 @@ class OneTimeAppointments extends AbstractController {
         return '';
     }
 
-    protected function getEndTime(string $endTime) : string {
+    protected function getEndTime(string $endTime) : string
+    {
         if($endTime !== '') {
             return 'bis ' . $this->getPrintableTime($endTime);
         }
