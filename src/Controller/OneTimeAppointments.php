@@ -69,9 +69,8 @@ class OneTimeAppointments extends AbstractController {
         //$content->appendJSFile('crud.js');
 
         $content = [
-            'caption' => 'Bildergalerie',
-            'modificationDate' => null
-#            'entries' => $entries
+            'caption' => 'Hier findes du alle Termine',
+            'modificationDate' => null,
         ];
 
         return $responseEngine->render(
