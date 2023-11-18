@@ -85,9 +85,9 @@ class OneTimeAppointments extends AbstractController {
     protected function getEntries(int $pathId): array
     {
         $stmt =
-            "SELECT `one_time_appointments`.`Id`, `Description`, `StartDate`, `StartTime`, `EndDate`,`EndTime`, `Changeable` " .
-            "FROM `{TABLE_PREFIX}_one_time_appointments` AS `one_time_appointments` " .
-            "WHERE `one_time_appointments`.`PathId` = %s " .
+            "SELECT `Id`, `Description`, `StartDate`, `StartTime`, `EndDate`, `EndTime`, `Changeable`, `Location` " .
+            "FROM `{TABLE_PREFIX}_one_time_appointments`" .
+            "WHERE `PathId` = %s " .
             "ORDER BY `StartDate`, `StartTime` DESC ";
 
         $rows = $this->database->select($stmt, [$pathId]);
@@ -105,8 +105,9 @@ class OneTimeAppointments extends AbstractController {
             } else {
                 $entry['endDate'   ] = 'bis ' . $this->getDay($row['EndDate']) . ', ' . $this->getDate($row['EndDate']);
             }
-            $entry['desc'        ] = $row['Description'];
-            $entry['changeable'  ] = $row['Changeable'] == '0' ? false : true;
+            $entry['description' ] = $row['Description'];
+            $entry['location'    ] = $row['Location'];
+            $entry['changeable'  ] = !($row['Changeable'] == '0');
             if($entry['changeable']) {
                 $changeable = true;
             }
