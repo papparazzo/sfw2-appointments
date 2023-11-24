@@ -22,8 +22,7 @@
 
 namespace SFW2\Appointments\Controller;
 
-use Exception;
-use http\Exception\InvalidArgumentException;
+use Fig\Http\Message\StatusCodeInterface;
 use SFW2\Core\HttpExceptions\HttpBadRequest;
 use SFW2\Database\DatabaseInterface;
 use SFW2\Routing\AbstractController;
@@ -36,7 +35,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 #use SFW2\Core\Config;
 
-use SFW2\Routing\HelperTraits\getPathIdTrait;
+use SFW2\Routing\HelperTraits\getPathTrait;
 use SFW2\Routing\ResponseEngine;
 use SFW2\Validator\Enumerations\DateCompareEnum;
 use SFW2\Validator\Ruleset;
@@ -48,7 +47,7 @@ use SFW2\Validator\Validators\IsTime;
 
 class OneTimeAppointments extends AbstractController {
 
-    use getPathIdTrait;
+    use getPathTrait;
 
     #use DateTimeHelperTrait;
 
@@ -146,64 +145,69 @@ class OneTimeAppointments extends AbstractController {
         return $responseEngine->render($request);
     }
 
+    /**
+     * @param Request $request
+     * @param ResponseEngine $responseEngine
+     * @return Response
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
     public function create(Request $request, ResponseEngine $responseEngine): Response
     {
         $rulset = new Ruleset();
         $rulset->addNewRules('sdstartdate', new IsNotEmpty(), new IsDate(DateCompareEnum::FUTURE_DATE));
-        $rulset->addNewRules('sdstarttime', new IsTime());
+        $rulset->addNewRules('sdstarttime', new IsNotEmpty(), new IsTime());
         $rulset->addNewRules('sdenddate', new IsDate(DateCompareEnum::FUTURE_DATE), new IsDate(DateCompareEnum::GREATER_THAN, $_POST['sdstartdate']));
         $rulset->addNewRules('sdendtime', new IsTime());
         $rulset->addNewRules('sddesc', new IsNotEmpty());
+        $rulset->addNewRules('sdlocation', new IsNotEmpty());
         $rulset->addNewRules('sdchangeable', new IsBool());
 
         $validator = new Validator($rulset);
         $values = [];
 
         $error = $validator->validate($_POST, $values);
-        $content->assignArray($values);
 
         if(!$error) {
-            $content->setError(true);
-            return $content;
+            return
+                $responseEngine->
+                render($request, ['sfw2_payload' => $values])->
+                withStatus(StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY);
         }
-
+/*
         $stmt =
             "INSERT INTO `{TABLE_PREFIX}_one_time_appointments` " .
-            "SET `StartDate` = '%s', `Description` = '%s', `PathId` = '%s', `Changeable` = '%s', `UserId` = '%s' ";
+            "SET `PathId` = %s, `StartDate` = %s, `Description` = %s, `Changeable` = %s, `Location` = %s ";
 
         if(!empty($values['sdstarttime']['value'])) {
-            $stmt .= ", `StartTime` = '" . $this->database->escape($values['sdstarttime']['value']) . "' ";
+            $stmt .= ", `StartTime` = " . $this->database->escape($values['sdstarttime']['value']) . " ";
         }
         if(!empty($values['sdendtime']['value'])) {
-            $stmt .= ", `EndTime` = '" . $this->database->escape($values['sdendtime']['value']) . "' ";
+            $stmt .= ", `EndTime` = " . $this->database->escape($values['sdendtime']['value']) . " ";
         }
         if(!empty($values['sdenddate']['value']) && $values['sdenddate']['value'] != $values['sdstartdate']['value']) {
-            $stmt .= ", `EndDate` = '" . $this->database->escape($values['sdenddate']['value']) . "' ";
+            $stmt .= ", `EndDate` = " . $this->database->escape($values['sdenddate']['value']) . " ";
         }
+*/
 
-        $id = $this->database->insert(
+        $stmt =
+            "INSERT INTO `{TABLE_PREFIX}_one_time_appointments` (" .
+            "`PathId`, `StartDate`, `Description`, `Changeable`, `Location`" .
+            ") VALUES(%s, %s, %s, %s, %s)";
+
+
+        $this->database->insert(
             $stmt,
             [
+                $this->getPathId($request),
                 $values['sdstartdate']['value'],
                 $values['sddesc']['value'],
-                $this->getPathId($request),
                 $values['sdchangeable']['value'],
+                $values['sdlocation']['value'],
                # $this->user->getUserId()
             ]
         );
-        $content->assign('id',        ['value' => $id]);
-        $content->assign('startDate', ['value' => $this->getDay($values['sdstartdate']['value']) . ', ' . $this->getDate($values['sdstartdate']['value'])]);
-        $content->assign('endTime',   ['value' => $this->getEndTime($values['sdendtime']['value'])]);
-        $content->assign('startTime', ['value' => $this->getStartTime($values['sdstarttime']['value'], !empty($values['sdendtime']['value']))]);
-        if(empty($values['sdenddate']['value'])) {
-            $content->assign('endDate', ['value' => '']);
-        } else {
-            $content->assign('endDate', ['value' => 'bis ' . $this->getDay($values['sdenddate']['value']) . ', ' . $this->getDate($values['sdenddate']['value'])]);
-        }
-        $content->assign('desc',       ['value' => $values['sddesc']['value']]);
-        $content->assign('changeable', ['value' => (bool)$values['sdchangeable']['value']]);
-        $content->dataWereModified();
-        return $content;
+
+        return $responseEngine->render($request);
     }
 
     protected function removeExhaustedDates() : void {
@@ -227,5 +231,41 @@ class OneTimeAppointments extends AbstractController {
             return 'bis ' . $this->getPrintableTime($endTime);
         }
         return '';
+    }
+
+    /**
+     * @param string $in
+     * @return string
+     * @deprecated
+     * TODO make this a trait
+     */
+    protected function getDay(string $in): string
+    {
+        // TODO what shoud we return here?
+        return $in;
+    }
+
+    /**
+     * @param string $in
+     * @return string
+     * @deprecated
+     * TODO make this a trait
+     */
+    protected function getDate(string $in): string
+    {
+        // TODO what shoud we return here?
+        return $in;
+    }
+
+    /**
+     * @param string $in
+     * @return string
+     * @deprecated
+     * TODO make this a trait
+     */
+    protected function getPrintableTime(string $in): string
+    {
+        // TODO what shoud we return here?
+        return $in;
     }
 }
