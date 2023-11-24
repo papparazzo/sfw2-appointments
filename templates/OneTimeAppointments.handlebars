@@ -136,51 +136,29 @@
             <tbody class="text-nowrap">
                 {{#each entries}}
                 <tr id="{{formid}}_recordset_{{id}}">
-
-                </tr>
-                {{/each}}
-
-                       <!--
-
-                            <tr id="{{formid}}_recordset_{{id}}">
-    <td>{{startDate}}</td>
-    <td style="text-align:right; padding-left: 5px;">{{startTime}}</td>
-    <td style="text-align:right; padding-left: 5px;">{{endDate}}</td>
-    <td>{{endTime}}</td>
-    <td>{{#if changeable}}<strong>*</strong>{{/if}}&#160;</td>
-    <td>{{desc}}</td>
-    {{#if deleteAllowed}}
-    <td style="width: 100px;">
-        <input type="hidden" id="{{formid}}_title_{{id}}" value="{{startDate}} - {{endDate}} ({{desc}})" />
-        <button
-            type="button"
-            class="btn btn-danger btn-sm"
-            data-toggle="modal"
-            data-target="#deleteDialogModal"
-            data-url="{{url}}"
-            data-item-id="{{id}}"
-            data-form-id="{{formid}}"
-        >
-            löschen
-        </button>
-    </td>
-    {{else}}
-    <td class="table-spacer"></td>
-    {{/if}}
-</tr>
-
-               -->
-
-                <tr>
-                    <td>So., 17. Dez. 2023</td>
-                    <td>ab 15:30 Uhr</td>
-                    <td>Weihnachtskonzert</td>
+                    <td>{{startDate}}</td>
+                    <td>{{startTime}}</td>
+                    <td>{{#if changeable}}<strong>*</strong>{{/if}}&#160;</td>
+                    <td>{{description}}</td>
                     <td>&#160;</td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-light"><i class="bi bi-trash3"></i></button>
-
+                        {{!#if deleteAllowed}}
+                        <input type="hidden" id="{{formid}}_title_{{id}}" value="{{startDate}} - {{endDate}} ({{desc}})" />
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-light"
+                            data-toggle="modal"
+                            data-target="#deleteDialogModal"
+                            data-url="{{url}}"
+                            data-item-id="{{id}}"
+                            data-form-id="{{formid}}"
+                        >
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                        {{!/if}}
                     </td>
                 </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>
