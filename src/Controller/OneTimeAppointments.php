@@ -50,8 +50,9 @@ class OneTimeAppointments extends AbstractController {
     #protected Config $config;
 
     public function __construct(
-                protected DatabaseInterface $database
-                /*, User $user, Config $config*/
+        protected DatabaseInterface $database,
+        protected DateTimeHelper $dateTimeHelper
+        /*, User $user, Config $config*/
     ) {
     #    $this->user = $user;
     #    $this->config = $config;
@@ -215,57 +216,5 @@ class OneTimeAppointments extends AbstractController {
         $this->database->delete($stmt);
     }
 
-    protected function getStartTime(string $startTime, bool $hasEndTime) : string {
-        if($startTime !== '' && $hasEndTime) {
-            return 'von ' . $this->getPrintableTime($startTime);
-        }
-        if($startTime !== '') {
-            return 'ab ' . $this->getPrintableTime($startTime);
-        }
-        return '';
-    }
 
-    protected function getEndTime(string $endTime) : string
-    {
-        if($endTime !== '') {
-            return 'bis ' . $this->getPrintableTime($endTime);
-        }
-        return '';
-    }
-
-    /**
-     * @param string $in
-     * @return string
-     * @deprecated
-     * TODO make this a trait
-     */
-    protected function getDay(string $in): string
-    {
-        // TODO what shoud we return here?
-        return $in;
-    }
-
-    /**
-     * @param string $in
-     * @return string
-     * @deprecated
-     * TODO make this a trait
-     */
-    protected function getDate(string $in): string
-    {
-        // TODO what shoud we return here?
-        return $in;
-    }
-
-    /**
-     * @param string $in
-     * @return string
-     * @deprecated
-     * TODO make this a trait
-     */
-    protected function getPrintableTime(string $in): string
-    {
-        // TODO what shoud we return here?
-        return $in;
-    }
 }
