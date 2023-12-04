@@ -24,6 +24,8 @@ namespace SFW2\Appointments\Controller;
 
 use Fig\Http\Message\StatusCodeInterface;
 use SFW2\Core\HttpExceptions\HttpBadRequest;
+use SFW2\Core\HttpExceptions\HttpNotFound;
+use SFW2\Core\Utils\DateTimeHelper;
 use SFW2\Database\DatabaseInterface;
 use SFW2\Routing\AbstractController;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -122,6 +124,7 @@ class OneTimeAppointments extends AbstractController {
 
     /**
      * @throws HttpBadRequest
+     * @throws HttpNotFound
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function delete(Request $request, ResponseEngine $responseEngine): Response
@@ -150,6 +153,7 @@ class OneTimeAppointments extends AbstractController {
      * @param ResponseEngine $responseEngine
      * @return Response
      * @noinspection PhpMissingParentCallCommonInspection
+     * @throws HttpNotFound
      */
     public function create(Request $request, ResponseEngine $responseEngine): Response
     {
