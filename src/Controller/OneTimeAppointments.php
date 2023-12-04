@@ -22,6 +22,7 @@
 
 namespace SFW2\Appointments\Controller;
 
+use Exception;
 use Fig\Http\Message\StatusCodeInterface;
 use SFW2\Core\HttpExceptions\HttpBadRequest;
 use SFW2\Core\HttpExceptions\HttpNotFound;
@@ -75,6 +76,9 @@ class OneTimeAppointments extends AbstractController {
         );
     }
 
+    /**
+     * @throws Exception
+     */
     protected function getEntries(int $pathId): array
     {
         $stmt =
