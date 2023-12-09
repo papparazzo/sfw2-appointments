@@ -28,8 +28,9 @@
         <div id="{{sfw2_routing.path_simplified}}" class="d-none">
             <form class="needs-validation" novalidate="novalidate">
                 <div class="mb-3">
-                    <label class="form-label">Startdatum</label>
+                    <label for="{{sfw2_routing.path_simplified}}_sdstartdate" class="form-label">Startdatum <i title="Pflichtfeld" class="bi bi-box-arrow-in-down-left"></i></label>
                     <input
+                        id="{{sfw2_routing.path_simplified}}_sdstartdate"
                         type="date"
                         class="form-control "
                         name="sdstartdate"
@@ -40,8 +41,9 @@
                     <div class="form-text invalid-feedback">fehler</div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Startuhrzeit</label>
+                    <label for="{{sfw2_routing.path_simplified}}_sdstarttime" class="form-label">Startuhrzeit <i title="Pflichtfeld" class="bi bi-box-arrow-in-down-left"></i></label>
                     <input
+                        id="{{sfw2_routing.path_simplified}}_sdstarttime"
                         type="time"
                         name="sdstarttime"
                         title="Gib hier bitte die Startzeit im Format hh:mm ein."
@@ -52,8 +54,9 @@
                     <div class="form-text invalid-feedback">fehler</div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Enddatum</label>
+                    <label for="{{sfw2_routing.path_simplified}}_sdenddate" class="form-label">Enddatum</label>
                     <input
+                        id="{{sfw2_routing.path_simplified}}_sdenddate"
                         class="form-control "
                         type="date"
                         name="sdenddate"
@@ -63,8 +66,9 @@
                     <div class="invalid-feedback">fehler</div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Enduhrzeit</label>
+                    <label for="{{sfw2_routing.path_simplified}}_sdendtime" class="form-label">Enduhrzeit</label>
                     <input
+                        id="{{sfw2_routing.path_simplified}}_sdendtime"
                         class="form-control "
                         type="time"
                         name="sdendtime"
@@ -74,8 +78,9 @@
                     <div class="invalid-feedback">fehler</div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Beschreibung</label>
+                    <label for="{{sfw2_routing.path_simplified}}_sddesc" class="form-label">Beschreibung <i title="Pflichtfeld" class="bi bi-box-arrow-in-down-left"></i></label>
                     <input
+                        id="{{sfw2_routing.path_simplified}}_sddesc"
                         class="form-control "
                         type="text"
                         name="sddesc"
@@ -85,8 +90,9 @@
                     <div class="invalid-feedback">fehler</div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Ort</label>
+                    <label for="{{sfw2_routing.path_simplified}}_sdlocation" class="form-label">Ort <i title="Pflichtfeld" class="bi bi-box-arrow-in-down-left"></i></label>
                     <input
+                        id="{{sfw2_routing.path_simplified}}_sdlocation"
                         class="form-control "
                         type="text"
                         name="sdlocation"
@@ -101,11 +107,11 @@
                             class="form-check-input"
                             name="sdchangeable"
                             type="checkbox"
-                            id="sdchangeable"
+                            id="{{sfw2_routing.path_simplified}}_sdchangeable"
                             value="1"
                             title="Klick hier bitte, wenn der Termin noch nicht fest ist und sich ggf. ändert!"
                         />
-                        <label class="form-check-label" for="sdchangeable">
+                        <label class="form-check-label" for="{{sfw2_routing.path_simplified}}_sdchangeable">
                             Flextermin (Termin kann sich noch ändern)
                         </label>
                         <div class="invalid-feedback">Fehler</div>
