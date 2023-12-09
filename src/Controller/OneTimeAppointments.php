@@ -92,20 +92,16 @@ class OneTimeAppointments extends AbstractController {
 
         $changeable = false;
         $entries = [];
+
         foreach($rows as $row) {
             $entry = [];
-            $entry['id'] = $row['Id'];
-            $entry['startDate'] = $this->getDay($row['StartDate']) . ', ' . $this->getDate($row['StartDate']);
-            $entry['endTime'   ] = $this->getEndTime((string)$row['EndTime']);
-            $entry['startTime' ] = $this->getStartTime((string)$row['StartTime'], ($row['EndTime'] !== null));
-            if($row['EndDate'] == null) {
-                $entry['endDate'   ] = '';
-            } else {
-                $entry['endDate'   ] = 'bis ' . $this->getDay($row['EndDate']) . ', ' . $this->getDate($row['EndDate']);
-            }
-            $entry['description' ] = $row['Description'];
-            $entry['location'    ] = $row['Location'];
-            $entry['changeable'  ] = !($row['Changeable'] == '0');
+            $entry['id'            ] = $row['Id'];
+            $entry['date'          ] = $this->dateTimeHelper->getDateString((string)$row['StartDate'], (string)$row['EndDate']);
+            $entry['time'          ] = $this->dateTimeHelper->getTimeString((string)$row['StartTime'], (string)$row['EndTime']);
+            $entry['description'   ] = $row['Description'];
+            $entry['location'      ] = $row['Location'];
+            $entry['changeable'    ] = !($row['Changeable'] == '0');
+            $entry['delete_allowed'] = true; // FIXME get permission!
             if($entry['changeable']) {
                 $changeable = true;
             }
@@ -116,7 +112,6 @@ class OneTimeAppointments extends AbstractController {
             'entries' => $entries,
             'has_changeable' => $changeable
         ];
-
     }
 
     /**
@@ -132,8 +127,8 @@ class OneTimeAppointments extends AbstractController {
         }
         $stmt =
             "DELETE FROM `{TABLE_PREFIX}_one_time_appointments` " .
-            "WHERE `id` = '%s' " .
-            "AND `PathId` = '%s'";
+            "WHERE `id` = %s " .
+            "AND `PathId` = %s";
 
        # if(!$all) {
        #     $stmt .= "AND `UserId` = '" . $this->database->escape($this->user->getUserId()) . "'";
