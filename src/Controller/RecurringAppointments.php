@@ -42,8 +42,6 @@ use SFW2\Core\Config;
 
 class RecurringAppointments extends AbstractController {
 
-    use DateTimeHelperTrait;
-
    # protected User $user;
    # protected Config $config;
 
