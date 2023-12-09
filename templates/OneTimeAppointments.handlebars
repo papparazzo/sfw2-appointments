@@ -132,36 +132,36 @@
                             type="button"
                             class="btn-sm btn btn-light"
                             data-bs-toggle="modal"
-                            data-bs-target="#sfw2-dialog-modal"
-                            data-sfw2-form-id="{{sfw2_routing.path_simplified}}"
-                            data-sfw2-url="{{sfw2_routing.path}}"
+                            data-bs-target="#sfw2-form-dialog-modal"
+                            data-sfw2-form-id="{{sfw2_routing.path_simplified} }"
+                            data-sfw2-url="{ {sfw2_routing.path} }"
                         ><i class="bi bi-plus-square"></i></button>
                     </th>
                 </tr>
             </thead>
             <tbody class="text-nowrap">
                 {{#each entries}}
-                <tr id="{{formid}}_recordset_{{id}}">
-                    <td>{{startDate}}</td>
-                    <td>{{startTime}}</td>
+                <tr id="{{../sfw2_routing.path_simplified}}_recordset_{{id}}">
+                    <td>{{date}}</td>
+                    <td>{{time}}</td>
                     <td>{{#if changeable}}<strong>*</strong>{{/if}}&#160;</td>
                     <td>{{description}}</td>
-                    <td>&#160;</td>
+                    <td>{{location}}</td>
                     <td>
-                        {{!#if deleteAllowed}}
-                        <input type="hidden" id="{{formid}}_title_{{id}}" value="{{startDate}} - {{endDate}} ({{desc}})" />
+                        {{!#if delete_allowed} }
+                        <input type="hidden" id="{{../sfw2_routing.path_simplified} }_title_{{id} }" value="{{date} } {{time} } - {{description} }" />
                         <button
                             type="button"
                             class="btn btn-sm btn-light"
-                            data-toggle="modal"
-                            data-target="#deleteDialogModal"
-                            data-url="{{url}}"
-                            data-item-id="{{id}}"
-                            data-form-id="{{formid}}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#sfw2-delete-dialog-modal"
+                            data-sfw2-url="{{../sfw2_routing.path} }"
+                            data-sfw2-item-id="{{id} }"
+                            data-sfw2-form-id="{{../sfw2_routing.path_simplified} }"
                         >
                             <i class="bi bi-trash3"></i>
                         </button>
-                        {{!/if}}
+                        {{/if}}
                     </td>
                 </tr>
                 {{/each}}
