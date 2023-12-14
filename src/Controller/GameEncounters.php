@@ -47,7 +47,12 @@ class GameEncounters extends AbstractController {
     protected User $user;
     protected string $title;
 
-    public function __construct(protected DatabaseInterface $database, User $user, string $title = '') {
+    public function __construct(
+        protected DatabaseInterface $database,
+        User $user,
+        protected DateTimeHelper $dateTimeHelper,
+        string $title = ''
+    ) {
         $this->title = $title;
         $this->user = $user;
         $this->removeExhaustedDates();
