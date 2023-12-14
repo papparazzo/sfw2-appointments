@@ -44,8 +44,6 @@ class GameEncounters extends AbstractController {
     use DateTimeHelperTrait;
     use SeasonTrait;
 
-    protected User $user;
-    protected string $title;
 
     public function __construct(
         protected DatabaseInterface $database,
