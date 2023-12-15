@@ -22,10 +22,13 @@
 
 namespace SFW2\Appointments\Controller;
 
+use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use SFW2\Core\Utils\DateTimeHelper;
 use SFW2\Database\DatabaseInterface;
 use SFW2\Routing\AbstractController;
+use SFW2\Routing\HelperTraits\getRoutingDataTrait;
 use SFW2\Routing\ResponseEngine;
 #use SFW2\Routing\Result\Content;
 #use SFW2\Authority\User;
@@ -41,13 +44,12 @@ use SFW2\Validator\Validators\IsTime;
 
 class GameEncounters extends AbstractController {
 
-    use DateTimeHelperTrait;
     use SeasonTrait;
+    use getRoutingDataTrait;
 
 
     public function __construct(
         protected DatabaseInterface $database,
-        protected User $user,
         protected DateTimeHelper $dateTimeHelper,
         protected string $title = ''
     ) {
@@ -56,17 +58,24 @@ class GameEncounters extends AbstractController {
 
     public function index(Request $request, ResponseEngine $responseEngine): Response
     {
-        unset($all);
-        $content = new Content('SFW2\\Appointments\\GameEncounters');
-        $content->appendJSFile('GameEncounters.handlebars.js');
-        $content->assign('title', 'Spielpläne');
-        $content->assign('subTitle', $this->title);
-        return $content;
+        # $content->appendJSFile('GameEncounters.handlebars.js');
+        $content = [
+            'title' => 'Spielpläne',
+            'subTitle' => $this->title
+        ];
+
+        return $responseEngine->render(
+            $request,
+            $content,
+            "SFW2\\Appointments\\GameEncounters"
+        );
     }
 
+    /**
+     * @throws Exception
+     */
     public function read(Request $request, ResponseEngine $responseEngine): Response
     {
-        unset($all);
         $content = new Content('GameEncounters');
         $entries = [];
 
@@ -93,8 +102,8 @@ class GameEncounters extends AbstractController {
             $entry['id'       ] = $row['Id'];
             $entry['home'     ] = $row['Home'];
             $entry['guest'    ] = $row['Guest'];
-            $entry['startDate'] = $this->getDate($row['StartDate']);
-            $entry['startDay' ] = $this->getDay($row['StartDate']);
+            $entry['startDate'] = $this->dateTimeHelper->getDate($row['StartDate']);
+            $entry['startDay' ] = $this->dateTimeHelper->getDate($row['StartDate']);
             $entry['startTime'] = mb_substr($row['StartTime'], 0, -3);
             $entry['ownEntry'] = (bool)$row['OwnEntry'];
             $entries[] = $entry;
@@ -102,7 +111,12 @@ class GameEncounters extends AbstractController {
         $content->assign('offset', $start + $count);
         $content->assign('hasNext', $start + $count < $cnt);
         $content->assign('entries', $entries);
-        return $content;
+
+        return $responseEngine->render(
+            $request,
+            $content,
+            "SFW2\\Appointments\\GameEncounters"
+        );
     }
 
     public function delete(Request $request, ResponseEngine $responseEngine): Response
@@ -124,7 +138,11 @@ class GameEncounters extends AbstractController {
         if(!$this->database->delete($stmt, [$entryId, $this->pathId])) {
             throw new ResolverException("no entry found", ResolverException::NO_PERMISSION);
         }
-        return new Content(false, true);
+        return $responseEngine->render(
+            $request,
+            [],
+            "SFW2\\Appointments\\GameEncounters"
+        );
     }
 
     public function create(Request $request, ResponseEngine $responseEngine): Response
@@ -171,10 +189,7 @@ class GameEncounters extends AbstractController {
     }
 
     protected function removeExhaustedDates() : void {
-        $stmt =
-            "DELETE FROM `{TABLE_PREFIX}_game_encounters` " .
-            "WHERE `StartDate` < NOW() ";
-
+        $stmt = "DELETE FROM `{TABLE_PREFIX}_game_encounters` WHERE `StartDate` < NOW() ";
         $this->database->delete($stmt);
     }
 }
