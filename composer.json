@@ -6,10 +6,12 @@
     "require": {
         "php": "^8.1",
 
+        "ext-mbstring": "*",
+
         "sfw2/validator": "^6.0",
-        "sfw2/routing": "@dev",
+        "sfw2/routing": "^5.0",
         "sfw2/core": "^3.0",
-        "sfw2/database": "@dev"
+        "sfw2/database": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -19,19 +21,16 @@
     "repositories" : [
         {
             "type": "vcs",
-            "url": "https://github.com/papparazzo/sfw2-validator.git"
+            "url": "https://github.com/papparazzo/sfw2-routing.git"
         }, {
-            "type": "path",
-            "url": "../sfw2-routing",
-            "symlink": true
-        },
-        {
+            "type": "vcs",
+            "url": "https://github.com/papparazzo/sfw2-database.git"
+        }, {
             "type": "vcs",
             "url": "https://github.com/papparazzo/sfw2-core.git"
         }, {
-            "type": "path",
-            "url": "../sfw2-database",
-            "symlink": true
+            "type": "vcs",
+            "url": "https://github.com/papparazzo/sfw2-validator.git"
         }
     ]
 }
