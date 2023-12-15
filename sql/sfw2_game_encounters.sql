@@ -24,6 +24,7 @@ CREATE TABLE `{TABLE_PREFIX}_one_time_appointments` (
     `Id` int(10) UNSIGNED NOT NULL,
     `PathId` int(11) UNSIGNED NOT NULL,
     `Description` text COLLATE utf8_unicode_ci NOT NULL,
+    `Location` text COLLATE utf8_unicode_ci NOT NULL,
     `Changeable` enum('0','1') COLLATE utf8_unicode_ci NOT NULL,
     `StartDate` date DEFAULT NULL,
     `StartTime` time DEFAULT NULL,
