@@ -127,7 +127,7 @@ class GameEncounters extends AbstractController {
     {
         $entryId = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
         if($entryId === false) {
-            throw new ResolverException("invalid data given", ResolverException::INVALID_DATA_GIVEN);
+            throw new HttpBadRequest("invalid entry-id given");
         }
         $stmt =
             "DELETE FROM `{TABLE_PREFIX}_game_encounters` " .
@@ -140,7 +140,7 @@ class GameEncounters extends AbstractController {
         }
 
         if(!$this->database->delete($stmt, [$entryId, $this->pathId])) {
-            throw new ResolverException("no entry found", ResolverException::NO_PERMISSION);
+            throw new HttpNotFound("no entry found for id <$entryId>");
         }
         return $responseEngine->render(
             $request,
