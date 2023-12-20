@@ -59,6 +59,10 @@ class OneTimeAppointments extends AbstractController {
      #   $this->removeExhaustedDates();
     }
 
+    /**
+     * @throws HttpNotFound
+     * @throws Exception
+     */
     public function index(Request $request, ResponseEngine $responseEngine): Response
     {
         //$content->appendJSFile('OneTimeAppointments.handlebars.js');
