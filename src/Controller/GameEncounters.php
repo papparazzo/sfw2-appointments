@@ -119,6 +119,10 @@ class GameEncounters extends AbstractController {
         );
     }
 
+    /**
+     * @noinspection PhpMissingParentCallCommonInspection
+     * @throws HttpBadRequest | HttpNotFound
+     */
     public function delete(Request $request, ResponseEngine $responseEngine): Response
     {
         $entryId = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
@@ -145,6 +149,10 @@ class GameEncounters extends AbstractController {
         );
     }
 
+    /**
+     * @noinspection PhpMissingParentCallCommonInspection
+     * @throws HttpBadRequest | HttpNotFound
+     */
     public function create(Request $request, ResponseEngine $responseEngine): Response
     {
         $content = new Content('GameEncounters');
