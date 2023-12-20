@@ -56,7 +56,7 @@ class OneTimeAppointments extends AbstractController {
     ) {
     #    $this->user = $user;
     #    $this->config = $config;
-     #   $this->removeExhaustedDates();
+        $this->removeExhaustedDates();
     }
 
     /**
