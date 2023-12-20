@@ -139,7 +139,7 @@ class OneTimeAppointments extends AbstractController {
        # }
 
         if(!$this->database->delete($stmt, [$entryId, $this->getPathId($request)])) {
-            throw new HttpBadRequest("no entry found for id <$entryId>");
+            throw new HttpNotFound("no entry found for id <$entryId>");
         }
         return $responseEngine->render($request);
     }
