@@ -161,7 +161,7 @@ class GameEncounters extends AbstractController {
         $rulset->addNewRules('home', new IsNotEmpty());
         $rulset->addNewRules('guest', new IsNotEmpty());
         $rulset->addNewRules('startTime', new IsNotEmpty(), new IsTime());
-        $rulset->addNewRules('startDate', new IsNotEmpty(), new IsDate(IsDate::FUTURE_DATE));
+        $rulset->addNewRules('startDate', new IsNotEmpty(), new IsDate(CompareEnum::FUTURE_DATE));
 
         $validator = new Validator($rulset);
         $values = [];
