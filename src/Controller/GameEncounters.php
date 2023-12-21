@@ -155,7 +155,7 @@ class GameEncounters extends AbstractController {
      */
     public function create(Request $request, ResponseEngine $responseEngine): Response
     {
-        $content = new Content('GameEncounters');
+        $content = [];
 
         $rulset = new Ruleset();
         $rulset->addNewRules('home', new IsNotEmpty());
@@ -170,8 +170,10 @@ class GameEncounters extends AbstractController {
         $content->assignArray($values);
 
         if(!$error) {
-            $content->setError(true);
-            return $content;
+            return
+                $responseEngine->
+                render($request, ['sfw2_payload' => $values])->
+                withStatus(StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY);
         }
 
         $stmt =
