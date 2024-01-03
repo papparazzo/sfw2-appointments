@@ -23,19 +23,18 @@
 namespace SFW2\Appointments\Controller;
 
 use Exception;
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use SFW2\Core\HttpExceptions\HttpBadRequest;
+use SFW2\Core\HttpExceptions\HttpNotFound;
 use SFW2\Core\Utils\DateTimeHelper;
 use SFW2\Database\DatabaseInterface;
 use SFW2\Routing\AbstractController;
 use SFW2\Routing\HelperTraits\getRoutingDataTrait;
 use SFW2\Routing\ResponseEngine;
-#use SFW2\Routing\Result\Content;
-#use SFW2\Authority\User;
 
-#use SFW2\Controllers\Controller\Helper\DateTimeHelperTrait;
-#use SFW2\Controllers\Controller\Helper\SeasonTrait;
-
+use SFW2\Validator\Enumerations\CompareEnum;
 use SFW2\Validator\Ruleset;
 use SFW2\Validator\Validator;
 use SFW2\Validator\Validators\IsNotEmpty;
@@ -44,7 +43,6 @@ use SFW2\Validator\Validators\IsTime;
 
 class GameEncounters extends AbstractController {
 
-    use SeasonTrait;
     use getRoutingDataTrait;
 
 
@@ -58,7 +56,6 @@ class GameEncounters extends AbstractController {
 
     public function index(Request $request, ResponseEngine $responseEngine): Response
     {
-        # $content->appendJSFile('GameEncounters.handlebars.js');
         $content = [
             'title' => 'Spielpläne',
             'subTitle' => $this->title
@@ -76,7 +73,6 @@ class GameEncounters extends AbstractController {
      */
     public function read(Request $request, ResponseEngine $responseEngine): Response
     {
-        $content = new Content('GameEncounters');
         $entries = [];
 
         $count = (int)filter_input(INPUT_GET, 'count', FILTER_VALIDATE_INT);
@@ -84,18 +80,16 @@ class GameEncounters extends AbstractController {
 
         $count = $count ?: 500;
 
-        $stmt =
+        $stmt = /** @lang MySQL */
             "SELECT `game_encounters`.`Id`, `Home`, `Guest`, `StartDate`, `StartTime`, " .
-            "IF(`game_encounters`.`UserId` = '%s', '1', '0') AS `OwnEntry` " .
+            "IF(`game_encounters`.`UserId` = %s, '1', '0') AS `OwnEntry` " .
             "FROM `{TABLE_PREFIX}_game_encounters` AS `game_encounters` " .
-            "LEFT JOIN `{TABLE_PREFIX}_user` AS `user` " .
-            "ON `user`.`Id` = `game_encounters`.`UserId` " .
-            "WHERE `PathId` = '%s' " .
+            "WHERE `PathId` = %s " .
             "ORDER BY `StartDate`, `StartTime`  DESC " .
             "LIMIT %s, %s ";
 
         $rows = $this->database->select($stmt, [$this->user->getUserId(), $this->pathId, $start, $count]);
-        $cnt = $this->database->selectCount('{TABLE_PREFIX}_game_encounters', "WHERE `PathId` = '%s'", [$this->pathId]);
+        $cnt = $this->database->selectCount('{TABLE_PREFIX}_game_encounters', "WHERE `PathId` = %s", [$this->pathId]);
 
         foreach($rows as $row) {
             $entry = [];
@@ -131,27 +125,24 @@ class GameEncounters extends AbstractController {
         }
         $stmt =
             "DELETE FROM `{TABLE_PREFIX}_game_encounters` " .
-            "WHERE `id` = '%s' " .
-            "AND `PathId` = '%s'";
-
+            "WHERE `id` = %s " .
+            "AND `PathId` = %s";
+/*
         if(!$all) {
             $stmt .=
                 "AND `UserId` = '" . $this->database->escape($this->user->getUserId()) . "'";
         }
-
-        if(!$this->database->delete($stmt, [$entryId, $this->pathId])) {
+*/
+        if(!$this->database->delete($stmt, [$entryId, $this->getPathId($request)])) {
             throw new HttpNotFound("no entry found for id <$entryId>");
         }
-        return $responseEngine->render(
-            $request,
-            [],
-            "SFW2\\Appointments\\GameEncounters"
-        );
+        return $responseEngine->render(request: $request, template: "SFW2\\Appointments\\GameEncounters");
     }
 
     /**
      * @noinspection PhpMissingParentCallCommonInspection
      * @throws HttpBadRequest | HttpNotFound
+     * @throws Exception
      */
     public function create(Request $request, ResponseEngine $responseEngine): Response
     {
@@ -167,7 +158,6 @@ class GameEncounters extends AbstractController {
         $values = [];
 
         $error = $validator->validate($_POST, $values);
-        $content->assignArray($values);
 
         if(!$error) {
             return
@@ -178,7 +168,7 @@ class GameEncounters extends AbstractController {
 
         $stmt =
             "INSERT INTO `{TABLE_PREFIX}_game_encounters` " .
-            "SET `StartDate` = '%s', `StartTime` = '%s', `Home` = '%s', Guest = '%s',`PathId` = '%s', `UserId` = '%s'";
+            "SET `StartDate` = %s, `StartTime` = %s, `Home` = %s, Guest = %s,`PathId` = %s, `UserId` = %s";
 
         $id = $this->database->insert(
             $stmt,
@@ -187,15 +177,18 @@ class GameEncounters extends AbstractController {
                 $values['startTime']['value'],
                 $values['home']['value'],
                 $values['guest']['value'],
-                $this->pathId,
+                $this->getPathId($request),
                 $this->user->getUserId()
             ]
         );
         $content->assign('id',        ['value' => $id]);
-        $content->assign('startDate', ['value' => $this->getDate($values['startDate']['value'])]);
-        $content->assign('startDay',  ['value' => $this->getDay($values['startDate']['value'])]);
+        $content->assign('startDate', ['value' => $this->dateTimeHelper->getDate('', $values['startDate']['value'])]);
+        $content->assign('startDay',  ['value' => $this->dateTimeHelper->getDay($values['startDate']['value'])]);
         $content->dataWereModified();
-        return $content;
+#        return $content;
+
+#        $this->getPathId($request)
+
     }
 
     protected function removeExhaustedDates() : void {

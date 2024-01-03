@@ -26,7 +26,9 @@ use Exception;
 use Fig\Http\Message\StatusCodeInterface;
 use SFW2\Core\HttpExceptions\HttpBadRequest;
 use SFW2\Core\HttpExceptions\HttpNotFound;
+use SFW2\Core\Permission\AccessType;
 use SFW2\Core\Utils\DateTimeHelper;
+use SFW2\Core\Permission\PermissionInterface;
 use SFW2\Database\DatabaseInterface;
 use SFW2\Routing\AbstractController;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -42,20 +44,15 @@ use SFW2\Validator\Validators\IsBool;
 use SFW2\Validator\Validators\IsDate;
 use SFW2\Validator\Validators\IsTime;
 
-class OneTimeAppointments extends AbstractController {
+final class OneTimeAppointments extends AbstractController {
 
     use getRoutingDataTrait;
 
-   # protected User $user;
-    #protected Config $config;
-
     public function __construct(
-        protected DatabaseInterface $database,
-        protected DateTimeHelper $dateTimeHelper
-        /*, User $user, Config $config*/
+        private readonly DatabaseInterface   $database,
+        private readonly DateTimeHelper      $dateTimeHelper,
+        private readonly PermissionInterface $permission
     ) {
-    #    $this->user = $user;
-    #    $this->config = $config;
         $this->removeExhaustedDates();
     }
 
@@ -65,9 +62,6 @@ class OneTimeAppointments extends AbstractController {
      */
     public function index(Request $request, ResponseEngine $responseEngine): Response
     {
-        //$content->appendJSFile('OneTimeAppointments.handlebars.js');
-        //$content->appendJSFile('crud.js');
-
         $content = [
             'caption' => 'Hier findes du alle Termine',
             'modificationDate' => null,
@@ -86,7 +80,7 @@ class OneTimeAppointments extends AbstractController {
      */
     protected function getEntries(int $pathId): array
     {
-        $stmt =
+        $stmt = /** @lang MySQL */
             "SELECT `Id`, `Description`, `StartDate`, `StartTime`, `EndDate`, `EndTime`, `Changeable`, `Location` " .
             "FROM `{TABLE_PREFIX}_one_time_appointments`" .
             "WHERE `PathId` = %s " .
@@ -97,6 +91,8 @@ class OneTimeAppointments extends AbstractController {
         $changeable = false;
         $entries = [];
 
+        $deleteAllowed = $this->permission->checkPermission($pathId, 'delete');
+
         foreach($rows as $row) {
             $entry = [];
             $entry['id'            ] = $row['Id'];
@@ -105,7 +101,7 @@ class OneTimeAppointments extends AbstractController {
             $entry['description'   ] = $row['Description'];
             $entry['location'      ] = $row['Location'];
             $entry['changeable'    ] = !($row['Changeable'] == '0');
-            $entry['delete_allowed'] = true; // FIXME get permission!
+            $entry['delete_allowed'] = $deleteAllowed !== AccessType::VORBIDDEN;
             if($entry['changeable']) {
                 $changeable = true;
             }
@@ -114,7 +110,8 @@ class OneTimeAppointments extends AbstractController {
 
         return [
             'entries' => $entries,
-            'has_changeable' => $changeable
+            'has_changeable' => $changeable,
+            'create_allowed' => $this->permission->checkPermission($pathId, 'create') !== AccessType::VORBIDDEN
         ];
     }
 
@@ -138,7 +135,7 @@ class OneTimeAppointments extends AbstractController {
        #     $stmt .= "AND `UserId` = '" . $this->database->escape($this->user->getUserId()) . "'";
        # }
 
-        if(!$this->database->delete($stmt, [$entryId, $this->getPathId($request)])) {
+        if($this->database->delete($stmt, [$entryId, $this->getPathId($request)]) !== 1) {
             throw new HttpNotFound("no entry found for id <$entryId>");
         }
         return $responseEngine->render($request);
@@ -173,7 +170,7 @@ class OneTimeAppointments extends AbstractController {
                 render($request, ['sfw2_payload' => $values])->
                 withStatus(StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY);
         }
-/*
+
         $stmt =
             "INSERT INTO `{TABLE_PREFIX}_one_time_appointments` " .
             "SET `PathId` = %s, `StartDate` = %s, `Description` = %s, `Changeable` = %s, `Location` = %s ";
@@ -187,13 +184,6 @@ class OneTimeAppointments extends AbstractController {
         if(!empty($values['sdenddate']['value']) && $values['sdenddate']['value'] != $values['sdstartdate']['value']) {
             $stmt .= ", `EndDate` = " . $this->database->escape($values['sdenddate']['value']) . " ";
         }
-*/
-
-        $stmt =
-            "INSERT INTO `{TABLE_PREFIX}_one_time_appointments` (" .
-            "`PathId`, `StartDate`, `Description`, `Changeable`, `Location`" .
-            ") VALUES(%s, %s, %s, %s, %s)";
-
 
         $this->database->insert(
             $stmt,
