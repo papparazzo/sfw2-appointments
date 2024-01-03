@@ -25,10 +25,11 @@
         <p>
             {{caption}}
         </p>
+        {{#if create_allowed}}
         <div id="{{sfw2_routing.path_simplified}}" class="d-none">
             <form class="needs-validation" novalidate="novalidate">
                 <div class="mb-3">
-                    <label for="{{sfw2_routing.path_simplified}}_sdstartdate" class="form-label">Startdatum <i title="Pflichtfeld" class="bi bi-box-arrow-in-down-left"></i></label>
+                    <label for="{{sfw2_routing.path_simplified}}_sdstartdate" class="form-label">Startdatum</label>
                     <input
                         id="{{sfw2_routing.path_simplified}}_sdstartdate"
                         type="date"
@@ -41,7 +42,7 @@
                     <div class="form-text invalid-feedback">fehler</div>
                 </div>
                 <div class="mb-3">
-                    <label for="{{sfw2_routing.path_simplified}}_sdstarttime" class="form-label">Startuhrzeit <i title="Pflichtfeld" class="bi bi-box-arrow-in-down-left"></i></label>
+                    <label for="{{sfw2_routing.path_simplified}}_sdstarttime" class="form-label">Startuhrzeit</label>
                     <input
                         id="{{sfw2_routing.path_simplified}}_sdstarttime"
                         type="time"
@@ -54,7 +55,7 @@
                     <div class="form-text invalid-feedback">fehler</div>
                 </div>
                 <div class="mb-3">
-                    <label for="{{sfw2_routing.path_simplified}}_sdenddate" class="form-label">Enddatum</label>
+                    <label for="{{sfw2_routing.path_simplified}}_sdenddate" class="form-label">Enddatum (optional)</label>
                     <input
                         id="{{sfw2_routing.path_simplified}}_sdenddate"
                         class="form-control "
@@ -66,7 +67,7 @@
                     <div class="invalid-feedback">fehler</div>
                 </div>
                 <div class="mb-3">
-                    <label for="{{sfw2_routing.path_simplified}}_sdendtime" class="form-label">Enduhrzeit</label>
+                    <label for="{{sfw2_routing.path_simplified}}_sdendtime" class="form-label">Enduhrzeit (optional)</label>
                     <input
                         id="{{sfw2_routing.path_simplified}}_sdendtime"
                         class="form-control "
@@ -78,7 +79,7 @@
                     <div class="invalid-feedback">fehler</div>
                 </div>
                 <div class="mb-3">
-                    <label for="{{sfw2_routing.path_simplified}}_sddesc" class="form-label">Beschreibung <i title="Pflichtfeld" class="bi bi-box-arrow-in-down-left"></i></label>
+                    <label for="{{sfw2_routing.path_simplified}}_sddesc" class="form-label">Beschreibung</label>
                     <input
                         id="{{sfw2_routing.path_simplified}}_sddesc"
                         class="form-control "
@@ -90,13 +91,12 @@
                     <div class="invalid-feedback">fehler</div>
                 </div>
                 <div class="mb-3">
-                    <label for="{{sfw2_routing.path_simplified}}_sdlocation" class="form-label">Ort <i title="Pflichtfeld" class="bi bi-box-arrow-in-down-left"></i></label>
+                    <label for="{{sfw2_routing.path_simplified}}_sdlocation" class="form-label">Ort</label>
                     <input
                         id="{{sfw2_routing.path_simplified}}_sdlocation"
                         class="form-control "
                         type="text"
                         name="sdlocation"
-                        title="Gib hier bitte einen Ort an."
                         maxlength="250"
                     />
                     <div class="invalid-feedback">fehler</div>
@@ -109,9 +109,12 @@
                             type="checkbox"
                             id="{{sfw2_routing.path_simplified}}_sdchangeable"
                             value="1"
-                            title="Klick hier bitte, wenn der Termin noch nicht fest ist und sich ggf. ändert!"
                         />
-                        <label class="form-check-label" for="{{sfw2_routing.path_simplified}}_sdchangeable">
+                        <label
+                            class="form-check-label"
+                            for="{{sfw2_routing.path_simplified}}_sdchangeable"
+                            title="Klick hier bitte, wenn der Termin noch nicht fest ist und sich ggf. ändert!"
+                        >
                             Flextermin (Termin kann sich noch ändern)
                         </label>
                         <div class="invalid-feedback">Fehler</div>
@@ -119,6 +122,7 @@
                 </div>
             </form>
         </div>
+        {{/if}}
         <table class="table table-hover">
             <thead class="table-light">
                 <tr>
@@ -128,14 +132,16 @@
                     <th>Was</th>
                     <th>Wo</th>
                     <th>
+                        {{#if create_allowed}}
                         <button
                             type="button"
                             class="btn-sm btn btn-light"
                             data-bs-toggle="modal"
                             data-bs-target="#sfw2-form-dialog-modal"
-                            data-sfw2-form-id="{{sfw2_routing.path_simplified} }"
-                            data-sfw2-url="{ {sfw2_routing.path} }"
+                            data-sfw2-form-id="#{{sfw2_routing.path_simplified}}"
+                            data-sfw2-url="{{sfw2_routing.path}}?do=create"
                         ><i class="bi bi-plus-square"></i></button>
+                        {{/if}}
                     </th>
                 </tr>
             </thead>
@@ -148,16 +154,16 @@
                     <td>{{description}}</td>
                     <td>{{location}}</td>
                     <td>
-                        {{!#if delete_allowed} }
-                        <input type="hidden" id="{{../sfw2_routing.path_simplified} }_title_{{id} }" value="{{date} } {{time} } - {{description} }" />
+                        {{#if delete_allowed}}
+                        <input type="hidden" id="{{../sfw2_routing.path_simplified}}_title_{{id}}" value="{{date}} {{time}} - {{description}}" />
                         <button
                             type="button"
                             class="btn btn-sm btn-light"
                             data-bs-toggle="modal"
                             data-bs-target="#sfw2-delete-dialog-modal"
-                            data-sfw2-url="{{../sfw2_routing.path} }"
-                            data-sfw2-item-id="{{id} }"
-                            data-sfw2-form-id="{{../sfw2_routing.path_simplified} }"
+                            data-sfw2-url="{{../sfw2_routing.path}}?do=delete"
+                            data-sfw2-item-id="{{id}}"
+                            data-sfw2-form-id="#{{../sfw2_routing.path_simplified}}"
                         >
                             <i class="bi bi-trash3"></i>
                         </button>
