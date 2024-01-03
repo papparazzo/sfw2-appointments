@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1065a791fbde5c4fa9437c65e0580bca",
+    "content-hash": "31933194ca8a1ebf5957ca6c9ed6f10c",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -61,6 +61,194 @@
                 "source": "https://github.com/php-fig/http-message-util/tree/1.1.5"
             },
             "time": "2020-11-24T22:02:12+00:00"
+        },
+        {
+            "name": "laravel/serializable-closure",
+            "version": "v1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/serializable-closure.git",
+                "reference": "3dbf8a8e914634c48d389c1234552666b3d43754"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/3dbf8a8e914634c48d389c1234552666b3d43754",
+                "reference": "3dbf8a8e914634c48d389c1234552666b3d43754",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "nesbot/carbon": "^2.61",
+                "pestphp/pest": "^1.21.3",
+                "phpstan/phpstan": "^1.8.2",
+                "symfony/var-dumper": "^5.4.11"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\SerializableClosure\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                },
+                {
+                    "name": "Nuno Maduro",
+                    "email": "nuno@laravel.com"
+                }
+            ],
+            "description": "Laravel Serializable Closure provides an easy and secure way to serialize closures in PHP.",
+            "keywords": [
+                "closure",
+                "laravel",
+                "serializable"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/serializable-closure/issues",
+                "source": "https://github.com/laravel/serializable-closure"
+            },
+            "time": "2023-11-08T14:08:06+00:00"
+        },
+        {
+            "name": "php-di/invoker",
+            "version": "2.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-DI/Invoker.git",
+                "reference": "33234b32dafa8eb69202f950a1fc92055ed76a86"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-DI/Invoker/zipball/33234b32dafa8eb69202f950a1fc92055ed76a86",
+                "reference": "33234b32dafa8eb69202f950a1fc92055ed76a86",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3",
+                "psr/container": "^1.0|^2.0"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "mnapoli/hard-mode": "~0.3.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Invoker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Generic and extensible callable invoker",
+            "homepage": "https://github.com/PHP-DI/Invoker",
+            "keywords": [
+                "callable",
+                "dependency",
+                "dependency-injection",
+                "injection",
+                "invoke",
+                "invoker"
+            ],
+            "support": {
+                "issues": "https://github.com/PHP-DI/Invoker/issues",
+                "source": "https://github.com/PHP-DI/Invoker/tree/2.3.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/mnapoli",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-09-08T09:24:21+00:00"
+        },
+        {
+            "name": "php-di/php-di",
+            "version": "7.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-DI/PHP-DI.git",
+                "reference": "8097948a89f6ec782839b3e958432f427cac37fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/8097948a89f6ec782839b3e958432f427cac37fd",
+                "reference": "8097948a89f6ec782839b3e958432f427cac37fd",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/serializable-closure": "^1.0",
+                "php": ">=8.0",
+                "php-di/invoker": "^2.0",
+                "psr/container": "^1.1 || ^2.0"
+            },
+            "provide": {
+                "psr/container-implementation": "^1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3",
+                "friendsofphp/proxy-manager-lts": "^1",
+                "mnapoli/phpunit-easymock": "^1.3",
+                "phpunit/phpunit": "^9.5",
+                "vimeo/psalm": "^4.6"
+            },
+            "suggest": {
+                "friendsofphp/proxy-manager-lts": "Install it if you want to use lazy injection (version ^1)"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "DI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The dependency injection container for humans",
+            "homepage": "https://php-di.org/",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interop",
+                "dependency injection",
+                "di",
+                "ioc",
+                "psr11"
+            ],
+            "support": {
+                "issues": "https://github.com/PHP-DI/PHP-DI/issues",
+                "source": "https://github.com/PHP-DI/PHP-DI/tree/7.0.6"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/mnapoli",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/php-di/php-di",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-11-02T10:04:50+00:00"
         },
         {
             "name": "psr/container",
@@ -496,24 +684,26 @@
         },
         {
             "name": "sfw2/core",
-            "version": "3.1.0",
+            "version": "5.2.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:papparazzo/sfw2-core.git",
-                "reference": "69b67ba0f940248b3ae26df64cc33e5fce1d4d91"
+                "reference": "8426ede0138f55145a76e96aee0dc55fb2ac85ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/papparazzo/sfw2-core/zipball/69b67ba0f940248b3ae26df64cc33e5fce1d4d91",
-                "reference": "69b67ba0f940248b3ae26df64cc33e5fce1d4d91",
+                "url": "https://api.github.com/repos/papparazzo/sfw2-core/zipball/8426ede0138f55145a76e96aee0dc55fb2ac85ac",
+                "reference": "8426ede0138f55145a76e96aee0dc55fb2ac85ac",
                 "shasum": ""
             },
             "require": {
                 "ext-gd": "*",
+                "ext-intl": "*",
                 "ext-mbstring": "*",
                 "fig/http-message-util": "^1.1.5",
-                "php": "^8.1",
-                "psr/container": "^2.0.2"
+                "php": "^8.2",
+                "psr/container": "^2.0.2",
+                "salesforce/handlebars-php": "^3.0.1"
             },
             "type": "library",
             "autoload": {
@@ -524,15 +714,21 @@
             "license": [
                 "GNU AFFERO GENERAL PUBLIC LICENSE Version 3"
             ],
-            "time": "2023-10-28T07:19:33+00:00"
+            "time": "2024-01-02T15:06:37+00:00"
         },
         {
             "name": "sfw2/database",
-            "version": "dev-master",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:papparazzo/sfw2-database.git",
+                "reference": "2bb7799a87a4b56d9cfa1ef156ead0d015686af3"
+            },
             "dist": {
-                "type": "path",
-                "url": "../sfw2-database",
-                "reference": "946408c471f4cfa45f49d546068be5e31f7a7c9e"
+                "type": "zip",
+                "url": "https://api.github.com/repos/papparazzo/sfw2-database/zipball/2bb7799a87a4b56d9cfa1ef156ead0d015686af3",
+                "reference": "2bb7799a87a4b56d9cfa1ef156ead0d015686af3",
+                "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
@@ -551,30 +747,35 @@
             "license": [
                 "GNU AFFERO GENERAL PUBLIC LICENSE Version 3"
             ],
-            "transport-options": {
-                "relative": true
-            }
+            "time": "2023-11-11T13:42:50+00:00"
         },
         {
             "name": "sfw2/routing",
-            "version": "dev-master",
+            "version": "7.0.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:papparazzo/sfw2-routing.git",
+                "reference": "84528c792cabbe2ba3f5eee581cc70284a466a83"
+            },
             "dist": {
-                "type": "path",
-                "url": "../sfw2-routing",
-                "reference": "bb8f527ac347600c70ae3fa0b6d97d73d7747417"
+                "type": "zip",
+                "url": "https://api.github.com/repos/papparazzo/sfw2-routing/zipball/84528c792cabbe2ba3f5eee581cc70284a466a83",
+                "reference": "84528c792cabbe2ba3f5eee581cc70284a466a83",
+                "shasum": ""
             },
             "require": {
                 "ext-fileinfo": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": "^8.1",
+                "php": "^8.2",
+                "php-di/php-di": "^7.0.5",
                 "psr/container": "^2.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-server-middleware": "^1.0.2",
                 "psr/log": "^3.0.0",
                 "psr/simple-cache": "^3.0.0",
                 "salesforce/handlebars-php": "^3.0.1",
-                "sfw2/core": "^3.0"
+                "sfw2/core": "^5.0"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.10"
@@ -588,22 +789,20 @@
             "license": [
                 "GNU AFFERO GENERAL PUBLIC LICENSE Version 3"
             ],
-            "transport-options": {
-                "relative": true
-            }
+            "time": "2024-01-02T15:17:03+00:00"
         },
         {
             "name": "sfw2/validator",
-            "version": "6.0.0",
+            "version": "6.1.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:papparazzo/sfw2-validator.git",
-                "reference": "979fd0fc634f968226f4e5b7a6b564c68979a950"
+                "reference": "21d0dc66cf73b53dd26d8ace580095a47bf9a174"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/papparazzo/sfw2-validator/zipball/979fd0fc634f968226f4e5b7a6b564c68979a950",
-                "reference": "979fd0fc634f968226f4e5b7a6b564c68979a950",
+                "url": "https://api.github.com/repos/papparazzo/sfw2-validator/zipball/21d0dc66cf73b53dd26d8ace580095a47bf9a174",
+                "reference": "21d0dc66cf73b53dd26d8ace580095a47bf9a174",
                 "shasum": ""
             },
             "require": {
@@ -629,20 +828,18 @@
                 "GNU AFFERO GENERAL PUBLIC LICENSE Version 3"
             ],
             "description": "simple validation library",
-            "time": "2023-11-07T16:35:08+00:00"
+            "time": "2023-11-11T14:18:33+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "sfw2/routing": 20,
-        "sfw2/database": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1"
+        "php": "^8.1",
+        "ext-mbstring": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
