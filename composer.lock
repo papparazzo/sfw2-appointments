@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31933194ca8a1ebf5957ca6c9ed6f10c",
+    "content-hash": "8c74655177a0421201ba112dc6ca3a6d",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -718,22 +718,22 @@
         },
         {
             "name": "sfw2/database",
-            "version": "2.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "git@github.com:papparazzo/sfw2-database.git",
-                "reference": "2bb7799a87a4b56d9cfa1ef156ead0d015686af3"
+                "reference": "618a65b128922b84c2485a55da7f07b9ae3f71d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/papparazzo/sfw2-database/zipball/2bb7799a87a4b56d9cfa1ef156ead0d015686af3",
-                "reference": "2bb7799a87a4b56d9cfa1ef156ead0d015686af3",
+                "url": "https://api.github.com/repos/papparazzo/sfw2-database/zipball/618a65b128922b84c2485a55da7f07b9ae3f71d3",
+                "reference": "618a65b128922b84c2485a55da7f07b9ae3f71d3",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
                 "ext-pdo": "*",
-                "php": "^8.1"
+                "php": "^8.2"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.10"
@@ -747,7 +747,7 @@
             "license": [
                 "GNU AFFERO GENERAL PUBLIC LICENSE Version 3"
             ],
-            "time": "2023-11-11T13:42:50+00:00"
+            "time": "2024-01-10T05:25:53+00:00"
         },
         {
             "name": "sfw2/routing",
