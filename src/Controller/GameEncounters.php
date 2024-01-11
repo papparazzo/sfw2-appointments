@@ -136,7 +136,7 @@ class GameEncounters extends AbstractController {
         if(!$this->database->delete($stmt, [$entryId, $this->getPathId($request)])) {
             throw new HttpNotFound("no entry found for id <$entryId>");
         }
-        return $responseEngine->render(request: $request, template: "SFW2\\Appointments\\GameEncounters");
+        return $responseEngine->render($request);
     }
 
     /**
@@ -188,7 +188,10 @@ class GameEncounters extends AbstractController {
 #        return $content;
 
 #        $this->getPathId($request)
-
+        return $responseEngine->render(
+            $request,
+            $content
+        );
     }
 
     protected function removeExhaustedDates() : void {
