@@ -177,16 +177,22 @@
                 {{/each}}
             </tbody>
         </table>
-    </div>
+
     {{#if has_changeable}}
     <p>
         <strong>*</strong> <i><strong>Achtung:</strong> Das Datum bzw. die Uhrzeit stehen noch nicht endgültig fest und
         können sich ggf. noch ändern!</i>
     </p>
     {{/if}}
+    {{else}}
+    <div class="alert alert-info pt-3" role="alert">
+        <strong>Anmerkung:</strong><p>Aktuell liegen keine Termine an!</p>
+    </div>
+    {{/if}}
     {{#if modificationDate}}
     <div class="modificationDate">
         Stand: <time pubdate="pubdate">{{modificationDate}}</time>
     </div>
     {{/if}}
+    </div>
 </div>
