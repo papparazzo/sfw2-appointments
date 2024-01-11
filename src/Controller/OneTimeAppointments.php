@@ -202,7 +202,11 @@ final class OneTimeAppointments extends AbstractController {
 
     protected function removeExhaustedDates(): void
     {
-        $stmt = "DELETE FROM `{TABLE_PREFIX}_one_time_appointments` WHERE `EndDate` < NOW() ";
+        $stmt =
+            "DELETE FROM `{TABLE_PREFIX}_one_time_appointments` " .
+            "WHERE (`EndDate` IS NULL AND DATE_ADD(`StartDate`, INTERVAL 5 DAY) < NOW()) " .
+            "OR DATE_ADD(`EndDate`, INTERVAL 5 DAY) < NOW()";
+
         $this->database->delete($stmt);
     }
 }
