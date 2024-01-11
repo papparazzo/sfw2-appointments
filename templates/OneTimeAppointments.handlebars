@@ -124,6 +124,19 @@
             </form>
         </div>
         {{/if}}
+        {{#if create_allowed}}
+        <div class="pt-3 pb-5">
+            <button
+                type="button"
+                class="btn btn-secondary sfw2-create-button"
+                data-sfw2-form-id="#{{sfw2_routing.path_simplified}}"
+                data-sfw2-url="{{sfw2_routing.path}}?do=create"
+            >
+                Neuen Termin anlegen...
+            </button>
+        </div>
+        {{/if}}
+        {{#if entries}}
         <table class="table table-hover">
             <thead class="table-light">
                 <tr>
@@ -133,16 +146,6 @@
                     <th>Was</th>
                     <th>Wo</th>
                     <th>
-                        {{#if create_allowed}}
-                        <button
-                            type="button"
-                            class="btn-sm btn btn-light"
-                            data-bs-toggle="modal"
-                            data-bs-target="#sfw2-form-dialog-modal"
-                            data-sfw2-form-id="#{{sfw2_routing.path_simplified}}"
-                            data-sfw2-url="{{sfw2_routing.path}}?do=create"
-                        ><i class="bi bi-plus-square"></i></button>
-                        {{/if}}
                     </th>
                 </tr>
             </thead>
