@@ -44,7 +44,8 @@ use SFW2\Validator\Validators\IsBool;
 use SFW2\Validator\Validators\IsDate;
 use SFW2\Validator\Validators\IsTime;
 
-final class OneTimeAppointments extends AbstractController {
+final class OneTimeAppointments extends AbstractController
+{
 
     use getRoutingDataTrait;
 
