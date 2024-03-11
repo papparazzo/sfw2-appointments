@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c74655177a0421201ba112dc6ca3a6d",
+    "content-hash": "6adc1be4ef861a18f6ff6e7f13d85f7a",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -718,16 +718,16 @@
         },
         {
             "name": "sfw2/database",
-            "version": "3.0.1",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:papparazzo/sfw2-database.git",
-                "reference": "618a65b128922b84c2485a55da7f07b9ae3f71d3"
+                "reference": "7c24176e8db6207f20e50178b20c982fc2f8c704"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/papparazzo/sfw2-database/zipball/618a65b128922b84c2485a55da7f07b9ae3f71d3",
-                "reference": "618a65b128922b84c2485a55da7f07b9ae3f71d3",
+                "url": "https://api.github.com/repos/papparazzo/sfw2-database/zipball/7c24176e8db6207f20e50178b20c982fc2f8c704",
+                "reference": "7c24176e8db6207f20e50178b20c982fc2f8c704",
                 "shasum": ""
             },
             "require": {
@@ -747,20 +747,20 @@
             "license": [
                 "GNU AFFERO GENERAL PUBLIC LICENSE Version 3"
             ],
-            "time": "2024-01-10T05:25:53+00:00"
+            "time": "2024-02-29T20:55:14+00:00"
         },
         {
             "name": "sfw2/routing",
-            "version": "7.0.0",
+            "version": "7.2.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:papparazzo/sfw2-routing.git",
-                "reference": "84528c792cabbe2ba3f5eee581cc70284a466a83"
+                "reference": "c1655473d81e5d7d72222751f93f939b9d85e8d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/papparazzo/sfw2-routing/zipball/84528c792cabbe2ba3f5eee581cc70284a466a83",
-                "reference": "84528c792cabbe2ba3f5eee581cc70284a466a83",
+                "url": "https://api.github.com/repos/papparazzo/sfw2-routing/zipball/c1655473d81e5d7d72222751f93f939b9d85e8d2",
+                "reference": "c1655473d81e5d7d72222751f93f939b9d85e8d2",
                 "shasum": ""
             },
             "require": {
@@ -789,29 +789,29 @@
             "license": [
                 "GNU AFFERO GENERAL PUBLIC LICENSE Version 3"
             ],
-            "time": "2024-01-02T15:17:03+00:00"
+            "time": "2024-02-04T06:58:59+00:00"
         },
         {
             "name": "sfw2/validator",
-            "version": "6.1.0",
+            "version": "6.2.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:papparazzo/sfw2-validator.git",
-                "reference": "21d0dc66cf73b53dd26d8ace580095a47bf9a174"
+                "reference": "a3e0c48aa608495f8dce0299a3034b96118a6ed6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/papparazzo/sfw2-validator/zipball/21d0dc66cf73b53dd26d8ace580095a47bf9a174",
-                "reference": "21d0dc66cf73b53dd26d8ace580095a47bf9a174",
+                "url": "https://api.github.com/repos/papparazzo/sfw2-validator/zipball/a3e0c48aa608495f8dce0299a3034b96118a6ed6",
+                "reference": "a3e0c48aa608495f8dce0299a3034b96118a6ed6",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": "^8.1"
+                "php": "^8.2"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^10"
+                "phpunit/phpunit": "^11"
             },
             "type": "library",
             "autoload": {
@@ -828,7 +828,7 @@
                 "GNU AFFERO GENERAL PUBLIC LICENSE Version 3"
             ],
             "description": "simple validation library",
-            "time": "2023-11-11T14:18:33+00:00"
+            "time": "2024-02-12T04:42:36+00:00"
         }
     ],
     "packages-dev": [],
