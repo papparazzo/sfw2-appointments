@@ -59,6 +59,10 @@ class RecurringAppointments extends AbstractController {
         return $responseEngine->render($request, [], "SFW2\\Appointments\\RecurringAppointments");
     }
 
+    /**
+     * @throws DatabaseException
+     * @throws HttpNotFound
+     */
     public function read(Request $request, ResponseEngine $responseEngine): Response
     {
         $count = (int)filter_input(INPUT_GET, 'count', FILTER_VALIDATE_INT);
@@ -107,6 +111,7 @@ class RecurringAppointments extends AbstractController {
     /**
      * @throws HttpBadRequest
      * @throws HttpNotFound
+     * @throws DatabaseException
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function delete(Request $request, ResponseEngine $responseEngine): Response
@@ -138,6 +143,7 @@ class RecurringAppointments extends AbstractController {
     /**
      * @throws HttpBadRequest
      * @throws HttpNotFound
+     * @throws DatabaseException
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function create(Request $request, ResponseEngine $responseEngine): Response
