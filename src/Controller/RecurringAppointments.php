@@ -27,6 +27,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use SFW2\Core\HttpExceptions\HttpBadRequest;
 use SFW2\Core\HttpExceptions\HttpNotFound;
+use SFW2\Database\DatabaseException;
 use SFW2\Database\DatabaseInterface;
 use SFW2\Routing\AbstractController;
 use SFW2\Routing\HelperTraits\getRoutingDataTrait;
