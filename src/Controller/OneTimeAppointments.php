@@ -50,6 +50,9 @@ final class OneTimeAppointments extends AbstractController
 
     use getRoutingDataTrait;
 
+    /**
+     * @throws DatabaseException
+     */
     public function __construct(
         private readonly DatabaseInterface   $database,
         private readonly DateTimeHelper      $dateTimeHelper,
